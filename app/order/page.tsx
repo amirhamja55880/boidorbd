@@ -1,4 +1,5 @@
 'use client';
+import { Suspense } from 'react';
 import { useState, useEffect } from 'react';
 import { useRouter, useSearchParams } from 'next/navigation';
 import Link from 'next/link';
@@ -6,7 +7,7 @@ import { ArrowLeft, Copy, CheckCircle } from 'lucide-react';
 import api from '../lib/api';
 import toast from 'react-hot-toast';
 
-export default function OrderPage() {
+function OrderContent() {
   const router = useRouter();
   const searchParams = useSearchParams();
   const bookId = searchParams.get('book');
@@ -269,5 +270,17 @@ export default function OrderPage() {
         </form>
       </div>
     </div>
+  );
+}
+
+export default function OrderPage() {
+  return (
+    <Suspense fallback={
+      <div className="min-h-screen flex items-center justify-center">
+        <div className="text-5xl animate-bounce">📦</div>
+      </div>
+    }>
+      <OrderContent />
+    </Suspense>
   );
 }
